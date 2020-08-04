@@ -1,3 +1,5 @@
+[![Run on Repl.it](https://repl.it/badge/github/MQCOMP3120-2020/weekly-workshop-tasks-stevecassidy)](https://repl.it/github/MQCOMP3120-2020/weekly-workshop-tasks-stevecassidy)
+
 # COMP3120 Workshop Tasks
 
 This repository will be used for weekly workshop tasks for COMP3120.
