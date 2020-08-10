@@ -5,10 +5,10 @@ const Unit = (props) => {
   const [title, setTitle] = useState(props.title)
 
   return (
-    <p>{props.code}: {title}
+    <li>{props.code}: {title}
       <button onClick={()=> setTitle(title.toUpperCase())}>Up</button>
       <button onClick={()=> setTitle(title.toLowerCase())}>Down</button>
-    </p>
+    </li>
   )
 
 }
@@ -29,7 +29,9 @@ const App = () => {
 
   return (
     <div className="App">
-      {units.map((unit) => (<Unit code={unit.code} title={unit.title} />))}
+      <ul>
+       {units.map((unit) => (<Unit key={unit.code} code={unit.code} title={unit.title} />))}
+      </ul>
     </div>
   );
 }
