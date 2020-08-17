@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Unit = (props) => {
+const Unit = ({unit}) => {
 
-  const [title, setTitle] = useState(props.title)
+    console.log(unit)
 
   return (
-    <li>{props.code}: {title}
-      <button onClick={()=> setTitle(title.toUpperCase())}>Up</button>
-      <button onClick={()=> setTitle(title.toLowerCase())}>Down</button>
+    <li>{unit.code}: 
+    {unit.title} 
+    {unit.offering.map(o => <span key={o}> {o} </span>)}
     </li>
   )
 

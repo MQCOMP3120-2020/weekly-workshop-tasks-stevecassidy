@@ -34,7 +34,7 @@ const App = () => {
       <UnitForm updateFn={addNewUnit}/>
 
       <ul>
-       {units.map((unit) => (<Unit key={unit.code} code={unit.code} title={unit.title} />))}
+       {units.map((unit) => (<Unit key={unit.id} unit={unit} />))}
       </ul>
     </div>
   );
