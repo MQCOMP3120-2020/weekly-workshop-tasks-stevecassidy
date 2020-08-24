@@ -10,18 +10,15 @@ const App = () => {
 
   const addNewUnit = (newUnit) => {
 
-    axios.post("http://localhost:3001/units", newUnit)
+    axios.post("http://localhost:3001/api/units", newUnit)
     .then(response => {
       console.log("POST response", response)
       setUnits([...units, response.data])
     })
-
-
-    
   }
 
   useEffect(() => {
-    axios.get("http://localhost:3001/units")
+    axios.get("http://localhost:3001/api/units")
     .then((response) => {
       console.log("response: ", response)
       setUnits(response.data)
