@@ -25,13 +25,23 @@ const App = () => {
     })
   },[])
 
+  const deleteUnit = (unit) => {
+    console.log("delete", unit)
+    axios.delete("http://localhost:3001/api/units/" + unit.id)
+    .then((response) => {
+      console.log("delete succeeded")
+      // delete local copy
+      const newUnits = units.filter(u => u.id !== unit.id)
+      setUnits(newUnits)
+    })
+  }
 
   return (
     <div className="App">
       <UnitForm updateFn={addNewUnit}/>
 
       <ul>
-       {units.map((unit) => (<Unit key={unit.id} unit={unit} />))}
+       {units.map((unit) => (<Unit key={unit.id} unit={unit} deleteFn={deleteUnit}/>))}
       </ul>
     </div>
   );

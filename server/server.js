@@ -1,44 +1,52 @@
 const express = require('express') 
 const cors = require('cors')
+const fs = require("fs") 
 
+// Load data from JSON file into memory
+const rawData = fs.readFileSync("server/units.json")
+const data = JSON.parse(rawData)
 
 const app = express() 
 app.use(cors())
+app.use(express.json()) 
 
-let units = [
-    {code: 'COMP1010', title:'Fundamentals of Computer Science', offering: ['S1', 'S2']},
-    {code: 'COMP1750', title:'Introduction to Business Information Systems', offering: ['S1']},
-    {code: 'COMP2110', title:'Web Technology', offering: ['S1', 'S2']},
-    {code: 'COMP2750', title:'Applications Modelling and Development', offering: ['S1']},
-    {code: 'MMCC2045', title:'Interactive Web Design', offering: ['S2']},
-    {code: 'COMP3120', title:'Advanced Web Development', offering: ['S2']},
-    {code: 'COMP3130', title:'Mobile Application Development', offering: ['S1']}
-  ]
 
 app.get('/api/units', (req, res) => {
-    res.json(units)
+    res.json(data.units)
 })
 
 app.post('/api/units', (req, res) => {
   const body = req.body
+  console.log(body)
   const newUnit = {
       title: body.title,
       code: body.code,
       offering: body.offering,
-      id: units.length   
+      id: data.units.length   
   }
-  units.push(newUnit) 
+  data.units.push(newUnit) 
   res.json(newUnit)
+})
+
+app.get('/api/units/:id', (req, res) => {
+  const id = Number(req.params.id)
+  const unit = data.units.filter(u => u.id === id)[0]
+  res.json(unit)
+})
+
+app.delete('/api/units/:id', (req, res) => {
+  const id = Number(req.params.id)
+  data.units = data.units.filter(u => u.id !== id)
+  res.json("deleted")
 })
 
 app.put('/api/units/:id', (req, res) => {
   const newUnit = req.body
   const id = Number(req.params.id)
-  units = units.map(e => id === e.id ? newUnit : e)
+  data.units = data.units.map(e => id === e.id ? newUnit : e)
   console.log("updated", newUnit)
   res.json(newUnit)
 })
-
 
 
 const PORT = 3001

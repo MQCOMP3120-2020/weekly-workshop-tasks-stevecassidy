@@ -57,6 +57,25 @@
       "offering": [
         "S1"
       ]
+    },
+    {
+      "code": "COMP1000",
+      "title": "Programming",
+      "offering": [
+        "S1",
+        "S2"
+      ],
+      "id": 7
+    },
+    {
+      "code": "sdfsdf",
+      "title": "sdfsdf",
+      "offering": [
+        "S1",
+        "S3",
+        "S2"
+      ],
+      "id": 8
     }
   ]
 }
