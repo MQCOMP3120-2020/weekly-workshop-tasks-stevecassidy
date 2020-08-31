@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UnitForm from "./UnitForm.js"
 import Unit from "./Unit.js"
-import axios from 'axios'
+import unitService from './services/units'
 
 
 const App = () => {
@@ -10,25 +10,24 @@ const App = () => {
 
   const addNewUnit = (newUnit) => {
 
-    axios.post("http://localhost:3001/api/units", newUnit)
-    .then(response => {
-      console.log("POST response", response)
-      setUnits([...units, response.data])
+  unitService.create(newUnit)
+    .then(data => {
+      console.log("POST response", data)
+      setUnits([...units, data])
     })
   }
 
   useEffect(() => {
-    axios.get("http://localhost:3001/api/units")
-    .then((response) => {
-      console.log("response: ", response)
-      setUnits(response.data)
+    unitService.getAll()
+    .then((data) => {
+      console.log("response: ", data)
+      setUnits(data)
     })
   },[])
 
   const deleteUnit = (unit) => {
-    console.log("delete", unit)
-    axios.delete("http://localhost:3001/api/units/" + unit.id)
-    .then((response) => {
+    unitService.delete(unit.id)
+    .then(data => {
       console.log("delete succeeded")
       // delete local copy
       const newUnits = units.filter(u => u.id !== unit.id)
