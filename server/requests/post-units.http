@@ -1,0 +1,4 @@
+POST http://localhost:3001/api/units 
+Content-Type: application/json
+
+{"title": "Sample Unit", "code": "SAMP1001", "offering": ["S1"]}
