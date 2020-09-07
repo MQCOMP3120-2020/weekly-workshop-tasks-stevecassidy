@@ -1,9 +1,25 @@
 const express = require('express')  
 const fs = require("fs") 
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 // Load data from JSON file into memory
 const rawData = fs.readFileSync("server/units.json")
 const data = JSON.parse(rawData)
+
+const SECRET = process.env.SECRET
+
+const getUser = (username) => {
+  return data.users.filter(u => u.username === username)[0]
+}
+
+const getTokenFrom = request => {
+  const authorization = request.get('authorization') 
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) { 
+         return authorization.substring(7)  
+      }  
+  return null
+}
 
 const apiRouter = express.Router()
 
@@ -43,6 +59,34 @@ apiRouter.put('/api/units/:id', (req, res) => {
   data.units = data.units.map(e => id === e.id ? newUnit : e)
   console.log("updated", newUnit)
   res.json(newUnit)
+})
+
+
+// handle post request for login with {username, password}
+apiRouter.post('/api/login', async (req, res) => {
+
+  const {username, password} = req.body
+
+  const user = getUser(username)
+
+  if (!user) {
+      return res.status(401).json({error: "invalid username or password"})
+  }
+
+  if (await bcrypt.compare(password, user.password)) {
+      console.log("Password is good!")
+      
+      const userForToken = {
+          id: user.id,
+          username: user.username            
+      }
+      const token = jwt.sign(userForToken, SECRET)
+
+      return res.status(200).json({token, username: user.username, name: user.name})
+      
+  } else {
+      return res.status(401).json({error: "invalid username or password"})
+  }
 })
 
 
