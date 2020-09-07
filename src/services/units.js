@@ -41,5 +41,18 @@ const del = (unitid) => {
                 .then(response => response.data)
 }
 
-export default {getAll, create, update, delete: del} 
+
+/**
+ * Send a login request
+ * @param {Object} param0 {username, password} 
+ * @returns {Promise} Promise that will resolve to the response data
+ */
+const login = ({username, password}) => {
+
+    console.log("POST", baseURL + 'login')
+    return axios.post(baseURL + 'login', {username, password})
+    .then(response => response.data)
+}
+
+export default {getAll, create, update, delete: del, login} 
 

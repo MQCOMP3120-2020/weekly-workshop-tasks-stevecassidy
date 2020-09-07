@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
-import UnitForm from "./components/UnitForm.js"
-import Unit from "./components/Unit.js"
+import UnitForm from "./components/UnitForm"
+import Unit from "./components/Unit"
+import LoginForm from "./components/LoginForm"
 import unitService from './services/units'
+
 
 
 const App = () => {
   
   const [units, setUnits] = useState([])
+  const [user, setUser] = useState(null)
 
   const addNewUnit = (newUnit) => {
-
-  unitService.create(newUnit)
-    .then(data => {
-      console.log("POST response", data)
-      setUnits([...units, data])
-    })
+    unitService.create(newUnit)
+      .then(data => {
+        console.log("POST response", data)
+        setUnits([...units, data])
+      })
   }
 
   useEffect(() => {
@@ -37,11 +39,24 @@ const App = () => {
 
   return (
     <div className="App">
-      <UnitForm updateFn={addNewUnit}/>
+      <LoginForm user={user} setUser={setUser}/>
 
+    
+      
+
+
+
+      <div className="row">
+      <div className="five columns">
+        <UnitForm updateFn={addNewUnit}/> 
+      </div>
+      <div className="seven columns">
       <ul>
        {units.map((unit) => (<Unit key={unit.id} unit={unit} deleteFn={deleteUnit}/>))}
       </ul>
+      </div>
+    </div>
+ 
     </div>
   );
 }
