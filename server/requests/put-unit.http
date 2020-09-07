@@ -1,4 +1,5 @@
 PUT http://localhost:3001/api/units/0
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJib2JhbG9vYmEiLCJpYXQiOjE1OTk0NTkxOTR9.hBwGAqiv--2kA7v7udbbJ1XAD3ScFgE6EdatPjFrUac
 
 {"title": "Sample Unit", "code": "SAMP1001", "offering": ["S1"]}

@@ -27,7 +27,36 @@ apiRouter.get('/api/units', (req, res) => {
     res.json(data.units)
 })
 
+/**
+ * validate a token and return a decoded token or null if invalid
+ * @param {express.request} req 
+ * @returns {jwt.token} a decoded jwt token
+ */
+const validateToken = (req) => {
+  const token = getTokenFrom(req)
+  console.log(token)
+  // if no token then we fail
+  if (!token) {
+    return null
+  }
+
+  const decodedToken = jwt.verify(token, SECRET)
+   
+  if (!decodedToken.id) {
+    return null
+  } else {
+     return decodedToken
+  }
+}
+
 apiRouter.post('/api/units', (req, res) => {
+
+  const token = validateToken(req)
+
+  if (!token) {
+    return res.status(401).json({error: "permission denied"})
+  }
+
   const body = req.body
   console.log(body)
   const newUnit = {
@@ -47,12 +76,25 @@ apiRouter.get('/api/units/:id', (req, res) => {
 })
 
 apiRouter.delete('/api/units/:id', (req, res) => {
+
+  const token = validateToken(req)
+
+  if (!token) {
+    return res.status(401).json({error: "permission denied"})
+  }
+
   const id = Number(req.params.id)
   data.units = data.units.filter(u => u.id !== id)
   res.json("deleted")
 })
 
 apiRouter.put('/api/units/:id', (req, res) => {
+  const token = validateToken(req)
+
+  if (!token) {
+    return res.status(401).json({error: "permission denied"})
+  }
+
   const newUnit = req.body
   const id = Number(req.params.id)
   newUnit.id = id // ensure that the unit id remains the same after update
