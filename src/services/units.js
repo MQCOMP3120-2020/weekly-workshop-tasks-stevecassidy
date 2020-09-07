@@ -15,9 +15,15 @@ const getAll = () => {
  * @param {Object} newObject a new unit object
  * @returns {Promise} Promise that will resolve to the response data
  */
-const create = (newObject) => {
+const create = (newObject, user) => {
 
-    return axios.post(baseURL + "units", newObject)
+    if (!user) {
+        return new Promise(() => null)
+    }
+
+    const config = {headers: {Authorization: "Bearer " + user.token}  }
+
+    return axios.post(baseURL + "units", newObject, config)
                 .then(response => response.data)
 }
 
@@ -26,8 +32,15 @@ const create = (newObject) => {
  * @param {Object} unit An modified unit {code, title, offering}
  * @returns {Promise} Promise that will resolve to the response data
  */
-const update = (unit) => {
-    return axios.put(baseURL + "units/" + unit.id, unit)
+const update = (unit, user) => {
+
+    if (!user) {
+        return new Promise(() => null)
+    }
+
+    const config = {headers: {Authorization: "Bearer " + user.token}  }
+
+    return axios.put(baseURL + "units/" + unit.id, unit, config)
                 .then(response => response.data)
 }
 
@@ -36,8 +49,15 @@ const update = (unit) => {
  * @param {integer} unitid the unit id to delete
  * @returns {Promise} Promise that will resolve to the response data
  */
-const del = (unitid) => {
-    return axios.delete(baseURL + "units/" + unitid)
+const del = (unitid, user) => {
+    
+    if (!user) {
+        return new Promise(() => null)
+    }
+
+    const config = {headers: {Authorization: "Bearer " + user.token}  }
+
+    return axios.delete(baseURL + "units/" + unitid, config)
                 .then(response => response.data)
 }
 

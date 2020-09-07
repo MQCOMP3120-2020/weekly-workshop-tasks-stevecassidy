@@ -12,9 +12,8 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   const addNewUnit = (newUnit) => {
-    unitService.create(newUnit)
+    unitService.create(newUnit, user)
       .then(data => {
-        console.log("POST response", data)
         setUnits([...units, data])
       })
   }
@@ -22,15 +21,13 @@ const App = () => {
   useEffect(() => {
     unitService.getAll()
     .then((data) => {
-      console.log("response: ", data)
       setUnits(data)
     })
   },[])
 
   const deleteUnit = (unit) => {
-    unitService.delete(unit.id)
+    unitService.delete(unit.id, user)
     .then(data => {
-      console.log("delete succeeded")
       // delete local copy
       const newUnits = units.filter(u => u.id !== unit.id)
       setUnits(newUnits)
